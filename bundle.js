@@ -10,9 +10,15 @@
             )
         );
 
+        bundleWorker.onmessage = function (event) {
+            console.log('bundleJs:onmessage Rx', event.data);
+        };
+
         var bundleWorkerButton = document.getElementById('bundleWorkerButton');
         bundleWorkerButton.onclick = function (_event) {
-            console.log('click', bundleWorker);
+            var message = Math.random();
+            console.log('bundleJs:onmessage Tx', message);
+            bundleWorker.postMessage(message);
         };
     }
 })()
