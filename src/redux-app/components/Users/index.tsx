@@ -46,9 +46,15 @@ export class Users extends React.Component<IUsersProps, IUsersState> {
 
     render() {
         return this.props.users ? (
-            <div style={{ padding: '24px' }}>
-                <h2 style={{ fontSize: '36px' }}>All Users</h2>
-                {this.renderTable()}
+            <div>
+                <div style={{ backgroundColor: '#CCCCCC' }}>
+                    <button onClick={() => this.props.indexUsers()} type="button">
+                        reload
+                    </button>
+                </div>
+                <div style={{ padding: '24px' }}>
+                    {this.renderTable()}
+                </div>
             </div>
         ) : (
             <div style={{ padding: '24px' }}>Loading...</div>
