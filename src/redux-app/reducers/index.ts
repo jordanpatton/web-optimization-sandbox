@@ -15,6 +15,19 @@ export interface IUser {
     company_name: string;
     image_url: string;
 }
+
+function transformUsers(users: IUser[]): IUser[] {
+    return users.map(user => ({
+        id: user.id,
+        first_name: user.first_name.split('').reverse().join(''),
+        last_name: user.last_name.split('').reverse().join(''),
+        email_address: user.email_address.split('').reverse().join(''),
+        company_name: user.company_name.split('').reverse().join(''),
+        image_url: user.image_url,
+    }));
+}
+
+
 interface IUsersState {
     data?: { users: IUser[]; };
     error?: boolean;
@@ -36,7 +49,18 @@ function users(state: IUsersState = {}, action: TUsersActionTypes): IUsersState 
         case INDEX_USERS_PENDING:
             return { ...state, error: undefined };
         case INDEX_USERS_SUCCESS:
-            return { ...state, data: action.data, error: undefined };
+            return {
+                ...state,
+                data: {
+                    ...action.data,
+                    users: (
+                        Math.floor(Math.random() * Math.floor(2)) // coin flip
+                        ? transformUsers(action.data.users)
+                        : action.data.users
+                    ),
+                },
+                error: undefined,
+            };
         case INDEX_USERS_FAILURE:
             return { ...state, error: true };
         default:
