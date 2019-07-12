@@ -46,7 +46,7 @@ export class Users extends React.Component<IUsersProps, IUsersState> {
 
     render() {
         return this.props.users ? (
-            <div>
+            <React.Fragment>
                 <div style={{ backgroundColor: '#CCCCCC' }}>
                     <button onClick={() => this.props.indexUsers()} type="button">
                         reload
@@ -55,7 +55,7 @@ export class Users extends React.Component<IUsersProps, IUsersState> {
                 <div style={{ padding: '24px' }}>
                     {this.renderTable()}
                 </div>
-            </div>
+            </React.Fragment>
         ) : (
             <div style={{ padding: '24px' }}>Loading...</div>
         );

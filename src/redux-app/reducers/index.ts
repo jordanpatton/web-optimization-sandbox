@@ -19,10 +19,10 @@ export interface IUser {
 function transformUsers(users: IUser[]): IUser[] {
     return users.map(user => ({
         id: user.id,
-        first_name: user.first_name.split('').reverse().join(''),
-        last_name: user.last_name.split('').reverse().join(''),
-        email_address: user.email_address.split('').reverse().join(''),
-        company_name: user.company_name.split('').reverse().join(''),
+        first_name: `${user.first_name} ${Math.floor(Math.random() * Math.floor(2)) ? 'heads' : 'tails'}`,
+        last_name: `${user.last_name} ${Math.floor(Math.random() * Math.floor(2)) ? 'heads' : 'tails'}`,
+        email_address: `${user.email_address} ${Math.floor(Math.random() * Math.floor(2)) ? 'heads' : 'tails'}`,
+        company_name: `${user.company_name} ${Math.floor(Math.random() * Math.floor(2)) ? 'heads' : 'tails'}`,
         image_url: user.image_url,
     }));
 }
@@ -53,11 +53,7 @@ function users(state: IUsersState = {}, action: TUsersActionTypes): IUsersState 
                 ...state,
                 data: {
                     ...action.data,
-                    users: (
-                        Math.floor(Math.random() * Math.floor(2)) // coin flip
-                        ? transformUsers(action.data.users)
-                        : action.data.users
-                    ),
+                    users: transformUsers(action.data.users),
                 },
                 error: undefined,
             };
