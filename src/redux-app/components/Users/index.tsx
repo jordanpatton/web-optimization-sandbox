@@ -2,14 +2,15 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 
 import * as actions from '../../actions';
+import { IUser } from '../../reducers';
 
-export interface UsersProps {
-    indexUsers: any,
-    users?: any[],
+interface IUsersProps {
+    indexUsers: any;
+    users?: IUser[];
 };
-export interface UsersState {};
+interface IUsersState {};
 
-export class Users extends React.Component<UsersProps, UsersState> {
+export class Users extends React.Component<IUsersProps, IUsersState> {
     componentDidMount() {
         if (!this.props.users) {
             this.props.indexUsers();

@@ -7,7 +7,7 @@ import {
 } from '../actions';
 
 
-interface User {
+export interface IUser {
     id: number | string;
     first_name: string;
     last_name: string;
@@ -15,30 +15,27 @@ interface User {
     company_name: string;
     image_url: string;
 }
-interface UsersState {
-    data?: any[],
-    error?: boolean,
+interface IUsersState {
+    data?: { users: IUser[]; };
+    error?: boolean;
 }
-interface IndexUsersPendingAction {
-    data: any[],
-    type: typeof INDEX_USERS_PENDING,
+interface IIndexUsersPendingAction {
+    type: typeof INDEX_USERS_PENDING;
 }
-interface IndexUsersSuccessAction {
-    data: any[],
-    type: typeof INDEX_USERS_SUCCESS,
+interface IIndexUsersSuccessAction {
+    data: { users: IUser[]; };
+    type: typeof INDEX_USERS_SUCCESS;
 }
-interface IndexUsersFailureAction {
-    data: any[],
-    type: typeof INDEX_USERS_FAILURE,
+interface IIndexUsersFailureAction {
+    type: typeof INDEX_USERS_FAILURE;
 }
-type UsersActionTypes = IndexUsersPendingAction | IndexUsersSuccessAction | IndexUsersFailureAction;
+type TUsersActionTypes = IIndexUsersPendingAction | IIndexUsersSuccessAction | IIndexUsersFailureAction;
 
-function users(state: UsersState = {}, action: UsersActionTypes): UsersState {
+function users(state: IUsersState = {}, action: TUsersActionTypes): IUsersState {
     switch (action.type) {
         case INDEX_USERS_PENDING:
             return { ...state, error: undefined };
         case INDEX_USERS_SUCCESS:
-            console.log(action);
             return { ...state, data: action.data, error: undefined };
         case INDEX_USERS_FAILURE:
             return { ...state, error: true };
