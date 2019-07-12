@@ -1,14 +1,5 @@
+import axios from 'axios';
 import { Dispatch } from 'redux';
-
-export function fetchResource(resourceName: string = ''): Promise<any> {
-    return (
-        (typeof window !== 'undefined' && typeof window.fetch !== 'undefined')
-        ? window
-            .fetch(`http://localhost:3000/api/${resourceName}`, { method: 'GET' })
-            .then(r => r.status === 200 ? r.json() : Promise.reject(r))
-        : Promise.reject('window.fetch unavailable')
-    );
-}
 
 // =======================================================================================
 // INDEX_USERS
@@ -25,8 +16,8 @@ export const indexUsersFailure = (data: string) => ({ type: INDEX_USERS_FAILURE,
 export function indexUsers() {
     return (dispatch: Dispatch) => {
         dispatch(indexUsersPending());
-        return fetchResource('users')
-            .then(responseJson => dispatch(indexUsersSuccess(responseJson)))
+        return axios.get('http://localhost:3000/api/users')
+            .then(responseJson => dispatch(indexUsersSuccess(responseJson.data)))
             .catch(() => dispatch(indexUsersFailure('FAILURE!')));
     };
 }
