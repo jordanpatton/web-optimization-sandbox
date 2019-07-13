@@ -3,8 +3,8 @@ onerror = (event) => {
 };
 
 onmessage = (event) => {
-    console.log('worker Rx', event);
-    const tx = Math.random();
-    console.log('worker Tx', tx);
+    console.log('worker rx', event);
+    const tx = event.data;
+    console.log('worker tx', tx);
     postMessage(tx);
 };
