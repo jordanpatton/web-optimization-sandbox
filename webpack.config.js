@@ -1,26 +1,22 @@
 const HtmlWebPackPlugin = require("html-webpack-plugin");
 
 module.exports = {
-    entry: "./src/index.tsx",
+    entry: "./src-temp/index.js",
     output: {
         filename: "bundle.js",
         path: __dirname + "/dist"
     },
     devtool: "source-map",
     resolve: {
-        extensions: [".js", ".json", ".jsx", ".ts", ".tsx"]
+        extensions: [".js"]
     },
     module: {
         rules: [
             {
-                test: /\.worker\.(js|ts)$/,
+                test: /worker\.js$/,
                 use: {
                     loader: "worker-loader"
                 }
-            },
-            {
-                test: /\.tsx?$/,
-                loader: "awesome-typescript-loader"
             },
             {
                 test: /\.(js|jsx)$/,
