@@ -1,6 +1,8 @@
 import axios from 'axios';
 import { Dispatch } from 'redux';
 
+import * as EchoWorker from 'worker-loader!../workers/Echo.worker';
+
 // =======================================================================================
 // INDEX_USERS
 // =======================================================================================
@@ -14,6 +16,7 @@ export const indexUsersSuccess = (data: object) => ({ type: INDEX_USERS_SUCCESS,
 export const indexUsersFailure = (data: string) => ({ type: INDEX_USERS_FAILURE, data });
 // action coordinator (returns a function that accepts `dispatch` as a parameter)
 export function indexUsers() {
+    console.log(EchoWorker);
     return (dispatch: Dispatch) => {
         dispatch(indexUsersPending());
         return axios.get('http://localhost:3000/api/users')
