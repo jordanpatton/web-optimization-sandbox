@@ -6,6 +6,16 @@ const defaultWorker = new DefaultWorker();
 defaultWorker.onerror = (event) => { console.log('main error', event); };
 defaultWorker.onmessage = (event) => { console.log('main rx', event); };
 
+export function runWorker() {
+    const tx = Math.random();
+    console.log('main tx', tx, DefaultWorker, defaultWorker);
+    // defaultWorker.postMessage(tx);
+    defaultWorker.postMessage({
+        body: { url: 'http://localhost:3000/api/users' },
+        type: 'AXIOS_GET',
+    });
+}
+
 // =======================================================================================
 // INDEX_USERS
 // =======================================================================================
@@ -19,14 +29,6 @@ export const indexUsersSuccess = (data: object) => ({ type: INDEX_USERS_SUCCESS,
 export const indexUsersFailure = (data: string) => ({ type: INDEX_USERS_FAILURE, data });
 // action coordinator (returns a function that accepts `dispatch` as a parameter)
 export function indexUsers() {
-    const tx = Math.random();
-    console.log('main tx', tx, DefaultWorker, defaultWorker);
-    // defaultWorker.postMessage(tx);
-    defaultWorker.postMessage({
-        body: { url: 'http://localhost:3000/api/users' },
-        type: 'AXIOS_GET',
-    });
-
     return (dispatch: Dispatch) => {
         dispatch(indexUsersPending());
         return axios.get('http://localhost:3000/api/users')

@@ -51,6 +51,9 @@ export class Users extends React.Component<IUsersProps, IUsersState> {
                     <button onClick={() => this.props.indexUsers()} type="button">
                         reload
                     </button>
+                    <button onClick={() => actions.runWorker()} type="button">
+                        run worker
+                    </button>
                 </div>
                 <div style={{ padding: '24px' }}>
                     {this.renderTable()}
