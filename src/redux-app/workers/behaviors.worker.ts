@@ -3,6 +3,8 @@
 // Its global context is not `window`, and you cannot use it with normal code intended for
 // the main thread.
 
+import axios from 'axios';
+
 const context: Worker = self as any;
 
 context.onerror = (event) => {
@@ -11,7 +13,28 @@ context.onerror = (event) => {
 
 context.onmessage = (event) => {
     console.log('worker rx', event);
-    const tx = event.data;
-    console.log('worker tx', tx);
-    context.postMessage(tx);
+    switch (event.data.type) {
+        case 'AXIOS_GET':
+            axios.get(event.data.body.url).then(
+                r => {
+                    console.log({ body: r, type: 'AXIOS_GET_SUCCESS' });
+                    context.postMessage({ body: r.data, type: 'AXIOS_GET_SUCCESS' });
+                },
+                r => {
+                    console.log({ body: r, type: 'AXIOS_GET_FAILURE' });
+                    context.postMessage({ body: r, type: 'AXIOS_GET_FAILURE' });
+                }
+            ).catch(
+                e => {
+                    console.log({ body: e, type: 'AXIOS_GET_CATCH' });
+                    context.postMessage({ body: e, type: 'AXIOS_GET_CATCH' });
+                }
+            );
+            break;
+        default:
+            const tx = event.data;
+            console.log('worker tx', tx);
+            context.postMessage(tx);
+            break;
+    }
 };

@@ -21,7 +21,11 @@ export const indexUsersFailure = (data: string) => ({ type: INDEX_USERS_FAILURE,
 export function indexUsers() {
     const tx = Math.random();
     console.log('main tx', tx, DefaultWorker, defaultWorker);
-    defaultWorker.postMessage(tx);
+    // defaultWorker.postMessage(tx);
+    defaultWorker.postMessage({
+        body: { url: 'http://localhost:3000/api/users' },
+        type: 'AXIOS_GET',
+    });
 
     return (dispatch: Dispatch) => {
         dispatch(indexUsersPending());
