@@ -1,10 +1,12 @@
 const HtmlWebPackPlugin = require("html-webpack-plugin");
 
+const OUTPUT_PATH = "/dist";
+
 module.exports = {
     entry: "./src/index.tsx",
     output: {
         filename: "bundle.js",
-        path: __dirname + "/dist"
+        path: __dirname + OUTPUT_PATH
     },
     devtool: "source-map",
     resolve: {
@@ -14,8 +16,9 @@ module.exports = {
         rules: [
             {
                 test: /\.worker\.(js|ts)$/,
-                use: {
-                    loader: "worker-loader"
+                loader: "worker-loader",
+                options: {
+                    publicPath: OUTPUT_PATH + "/"
                 }
             },
             {

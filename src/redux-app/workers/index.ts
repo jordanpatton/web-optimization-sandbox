@@ -1,4 +1,4 @@
-import './declarations.d.ts';
-import behaviors = require('worker-loader!./behaviors.worker');
+import './behaviors.d.ts';
+import behaviors = require('./behaviors.worker.ts');
 
 export default behaviors;
