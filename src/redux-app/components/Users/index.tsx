@@ -53,8 +53,8 @@ export class Users extends React.Component<IUsersProps, IUsersState> {
                     <button onClick={() => this.props.indexUsers()} type="button">
                         reload
                     </button>
-                    <button onClick={() => actions.runWorker()} type="button">
-                        run worker
+                    <button onClick={() => this.props.indexUsers(true)} type="button">
+                        reload with worker
                     </button>
                 </div>
                 <div style={{ padding: '24px' }}>
@@ -72,7 +72,7 @@ const mapStateToProps = (state: any) => ({
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
-    indexUsers: () => dispatch(actions.indexUsers()),
+    indexUsers: (shouldUseWorker: boolean = false) => dispatch(actions.indexUsers(shouldUseWorker)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Users);
