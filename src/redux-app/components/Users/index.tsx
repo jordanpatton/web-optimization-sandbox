@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 import * as actions from '../../actions';
 import { IUser } from '../../reducers';
+import Blinker from '../Blinker';
 
 interface IUsersProps {
     indexUsers: any;
@@ -47,6 +48,7 @@ export class Users extends React.Component<IUsersProps, IUsersState> {
     render() {
         return this.props.users ? (
             <React.Fragment>
+                <Blinker />
                 <div style={{ backgroundColor: '#CCCCCC' }}>
                     <button onClick={() => this.props.indexUsers()} type="button">
                         reload
