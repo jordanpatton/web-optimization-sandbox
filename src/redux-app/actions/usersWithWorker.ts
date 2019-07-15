@@ -1,6 +1,7 @@
 import { Dispatch } from 'redux';
 
 import { useAxiosWorker } from '../workers/useAxiosWorker';
+import { useTransformUsersWorker } from '../workers/useTransformUsersWorker';
 
 // actions
 export const INDEX_USERS_WITH_WORKER_PENDING = 'INDEX_USERS_WITH_WORKER_PENDING';
@@ -17,7 +18,14 @@ export function indexUsersWithWorker() {
     return (dispatch: Dispatch) => {
         dispatch(indexUsersWithWorkerPending());
         return useAxiosWorker({ method: 'GET', url: 'http://localhost:3000/api/users' }).then(
-            (r: any) => dispatch(indexUsersWithWorkerSuccess(r.data.body)),
+            (r: any) => {
+                // todo: useTransformUsersWorker(r.data.body.users)
+                console.log('~~~~~~~~~~~~~~~');
+                console.log(r.data.body);
+                console.log(useTransformUsersWorker);
+                console.log('~~~~~~~~~~~~~~~');
+                return dispatch(indexUsersWithWorkerSuccess(r.data.body));
+            },
             r => dispatch(indexUsersWithWorkerFailure(r))
         ).catch(
             e => dispatch(indexUsersWithWorkerFailure(e))

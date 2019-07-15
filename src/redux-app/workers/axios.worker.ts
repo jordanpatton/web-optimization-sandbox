@@ -7,12 +7,13 @@ import axios, { AxiosRequestConfig } from 'axios';
 const context: Worker = self as any;
 
 context.onerror = (event) => {
-    console.log('axios worker error', event);
+    console.log('axios worker error', { body: event, type: 'ERROR' });
+    context.postMessage({ body: event, type: 'ERROR' });
 };
 
 context.onmessage = (event) => {
     console.log('axios worker rx', event);
-    axios(event.data as AxiosRequestConfig).then(
+    axios(event.data.body.axiosRequestConfig as AxiosRequestConfig).then(
         r => {
             console.log('axios worker tx', { body: r.data, type: 'SUCCESS' });
             context.postMessage({ body: r.data, type: 'SUCCESS' });
