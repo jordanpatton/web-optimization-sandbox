@@ -7,9 +7,6 @@ import { IUser } from '../../reducers/users';
 import Blinker from '../Blinker';
 import { AutoSizer, AutoSizerProps, Column, Table, WindowScroller, WindowScrollerChildProps } from 'react-virtualized';
 
-interface IWindowScrollerChildPropsExtended extends WindowScrollerChildProps {
-    registerChild: (...args: any) => any;
-}
 interface IUsersProps {
     indexUsers: () => Promise<any>;
     indexUsersWithWorker: () => Promise<any>;
