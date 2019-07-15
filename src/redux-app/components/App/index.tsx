@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { applyMiddleware, combineReducers, createStore } from 'redux';
 import { Provider } from 'react-redux';
+import 'react-virtualized/styles.css';
 import thunk from 'redux-thunk';
 
 import reducers from '../../reducers';
