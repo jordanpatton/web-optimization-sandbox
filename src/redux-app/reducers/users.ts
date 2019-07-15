@@ -57,13 +57,15 @@ export function users(state: IUsersState = {}, action: TUsersActionTypes): IUser
         case INDEX_USERS_WITH_WORKER_PENDING:
             return { ...state, error: undefined };
         case INDEX_USERS_SUCCESS:
+            return {
+                ...state,
+                data: { ...action.data, users: transformUsers(action.data.users) },
+                error: undefined,
+            };
         case INDEX_USERS_WITH_WORKER_SUCCESS:
             return {
                 ...state,
-                data: {
-                    ...action.data,
-                    users: transformUsers(action.data.users),
-                },
+                data: { ...action.data, users: action.data.users }, // do not transform
                 error: undefined,
             };
         case INDEX_USERS_FAILURE:
