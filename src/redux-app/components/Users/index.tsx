@@ -6,7 +6,8 @@ import { IUser } from '../../reducers';
 import Blinker from '../Blinker';
 
 interface IUsersProps {
-    indexUsers: any;
+    indexUsers: () => Promise<any>;
+    indexUsersWithWorker: () => Promise<any>;
     users?: IUser[];
 };
 interface IUsersState {};
@@ -53,7 +54,7 @@ export class Users extends React.Component<IUsersProps, IUsersState> {
                     <button onClick={() => this.props.indexUsers()} type="button">
                         reload
                     </button>
-                    <button onClick={() => this.props.indexUsers(true)} type="button">
+                    <button onClick={() => this.props.indexUsersWithWorker()} type="button">
                         reload with worker
                     </button>
                 </div>
@@ -72,7 +73,8 @@ const mapStateToProps = (state: any) => ({
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
-    indexUsers: (shouldUseWorker: boolean = false) => dispatch(actions.indexUsers(shouldUseWorker)),
+    indexUsers: () => dispatch(actions.indexUsers()),
+    indexUsersWithWorker: () => dispatch(actions.indexUsersWithWorker()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Users);
