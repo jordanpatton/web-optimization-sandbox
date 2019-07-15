@@ -5,7 +5,7 @@ import { indexUsers } from '../../actions/users';
 import { indexUsersWithWorker } from '../../actions/usersWithWorker';
 import { IUser } from '../../reducers/users';
 import Blinker from '../Blinker';
-import { Column, Table } from 'react-virtualized';
+import { AutoSizer, Column, Table } from 'react-virtualized';
 
 interface IUsersProps {
     indexUsers: () => Promise<any>;
@@ -24,45 +24,49 @@ export class Users extends React.Component<IUsersProps, IUsersState> {
     renderTable() {
         const { users } = this.props;
         return (
-            <Table
-                headerHeight={20}
-                height={1000}
-                rowCount={users.length}
-                rowGetter={({ index }) => users[index]}
-                rowHeight={30}
-                width={1000}
-            >
-                <Column
-                    dataKey="id"
-                    label="ID"
-                    width={50}
-                />
-                <Column
-                    cellDataGetter={({ rowData }) => `${rowData.first_name} ${rowData.last_name}`}
-                    dataKey="name"
-                    flexGrow={2}
-                    label="Name"
-                    width={100}
-                />
-                <Column
-                    dataKey="email_address"
-                    flexGrow={2}
-                    label="Email Address"
-                    width={100}
-                />
-                <Column
-                    dataKey="company_name"
-                    flexGrow={1}
-                    label="Company Name"
-                    width={100}
-                />
-                <Column
-                    cellRenderer={({ cellData }) => <img src={cellData} alt="avatar" title="avatar" />}
-                    dataKey="image_url"
-                    label="Avatar"
-                    width={100}
-                />
-            </Table>
+            <AutoSizer disableHeight>
+                {({ width }) => (
+                    <Table
+                        headerHeight={20}
+                        height={1000}
+                        rowCount={users.length}
+                        rowGetter={({ index }) => users[index]}
+                        rowHeight={20}
+                        width={width}
+                    >
+                        <Column
+                            dataKey="id"
+                            label="ID"
+                            width={50}
+                        />
+                        <Column
+                            cellDataGetter={({ rowData }) => `${rowData.first_name} ${rowData.last_name}`}
+                            dataKey="name"
+                            flexGrow={2}
+                            label="Name"
+                            width={100}
+                        />
+                        <Column
+                            dataKey="email_address"
+                            flexGrow={2}
+                            label="Email Address"
+                            width={100}
+                        />
+                        <Column
+                            dataKey="company_name"
+                            flexGrow={1}
+                            label="Company Name"
+                            width={100}
+                        />
+                        <Column
+                            cellRenderer={({ cellData }) => <img src={cellData} alt="avatar" title="avatar" />}
+                            dataKey="image_url"
+                            label="Avatar"
+                            width={100}
+                        />
+                    </Table>
+                )}
+            </AutoSizer>
         );
     }
 
