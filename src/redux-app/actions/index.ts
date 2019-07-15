@@ -3,15 +3,21 @@ import { Dispatch } from 'redux';
 
 import { AxiosWorker } from '../workers';
 
-function indexUsersWithWorker(dispatch: Dispatch) {
+const indexUsersWithWorker = () => new Promise((resolve, reject) => {
     // prepare worker
     const axiosWorker = new AxiosWorker();
     axiosWorker.onerror = (event) => {
-        console.log('main error', event);
+        console.log('indexUsersWithWorker error', event);
+        reject(event);
         axiosWorker.terminate();
     };
     axiosWorker.onmessage = (event) => {
-        console.log('main rx', event);
+        console.log('indexUsersWithWorker rx', event);
+        if (event.data.type === 'AXIOS_GET_SUCCESS') {
+            resolve(event);
+        } else {
+            reject(event);
+        }
         axiosWorker.terminate();
     };
     // transmit message
@@ -19,9 +25,9 @@ function indexUsersWithWorker(dispatch: Dispatch) {
         body: { url: 'http://localhost:3000/api/users' },
         type: 'AXIOS_GET',
     };
-    console.log('main tx', message);
+    console.log('indexUsersWithWorker tx', message);
     axiosWorker.postMessage(message);
-}
+});
 
 // =======================================================================================
 // INDEX_USERS
@@ -39,7 +45,12 @@ export function indexUsers(shouldUseWorker: boolean = false) {
     return (dispatch: Dispatch) => {
         dispatch(indexUsersPending());
         if (shouldUseWorker) {
-            indexUsersWithWorker(dispatch);
+            indexUsersWithWorker().then(
+                r => console.log('~~~~~ SUCCESS ~~~~~', r),
+                r => console.log('~~~~~ FAILURE ~~~~~', r)
+            ).catch(
+                e => console.log('~~~~~ CATCH ~~~~~', e)
+            );
             return axios.get('http://localhost:3000/api/users')
                 .then(responseJson => dispatch(indexUsersSuccess(responseJson.data)))
                 .catch(() => dispatch(indexUsersFailure('FAILURE!')));
