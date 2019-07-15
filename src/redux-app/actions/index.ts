@@ -45,19 +45,19 @@ export function indexUsers(shouldUseWorker: boolean = false) {
     return (dispatch: Dispatch) => {
         dispatch(indexUsersPending());
         if (shouldUseWorker) {
-            indexUsersWithWorker().then(
-                r => console.log('~~~~~ SUCCESS ~~~~~', r),
-                r => console.log('~~~~~ FAILURE ~~~~~', r)
+            return indexUsersWithWorker().then(
+                (r: any) => dispatch(indexUsersSuccess(r.data.body)),
+                r => dispatch(indexUsersFailure(r))
             ).catch(
-                e => console.log('~~~~~ CATCH ~~~~~', e)
+                e => dispatch(indexUsersFailure(e))
             );
-            return axios.get('http://localhost:3000/api/users')
-                .then(responseJson => dispatch(indexUsersSuccess(responseJson.data)))
-                .catch(() => dispatch(indexUsersFailure('FAILURE!')));
         }
         // else
-        return axios.get('http://localhost:3000/api/users')
-            .then(responseJson => dispatch(indexUsersSuccess(responseJson.data)))
-            .catch(() => dispatch(indexUsersFailure('FAILURE!')));
+        return axios.get('http://localhost:3000/api/users').then(
+            r => dispatch(indexUsersSuccess(r.data)),
+            r => dispatch(indexUsersFailure(r))
+        ).catch(
+            e => dispatch(indexUsersFailure(e))
+        );
     };
 }
