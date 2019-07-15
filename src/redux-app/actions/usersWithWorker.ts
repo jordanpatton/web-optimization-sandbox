@@ -19,23 +19,12 @@ export function indexUsersWithWorker() {
         dispatch(indexUsersWithWorkerPending());
         return useAxiosWorker({ method: 'GET', url: 'http://localhost:3000/api/users' }).then(
             (r1: any) => {
-                console.log('~~~~~~~~~~~~~~~');
-                console.log(r1.data.body);
-                console.log(useTransformUsersWorker);
-                console.log('~~~~~~~~~~~~~~~');
-                // return useTransformUsersWorker(r1.data.body.users).then(
-                //     (r2: any) => dispatch(indexUsersWithWorkerSuccess(r2.data.body)),
-                //     r2 => dispatch(indexUsersWithWorkerFailure(r2))
-                // ).catch(
-                //     e2 => dispatch(indexUsersWithWorkerFailure(e2))
-                // );
-                useTransformUsersWorker(r1.data.body.users).then(
-                    r2 => console.log('SUCCESS', r2),
-                    r2 => console.log('FAILURE', r2)
+                return useTransformUsersWorker(r1.data.body.users).then(
+                    (r2: any) => dispatch(indexUsersWithWorkerSuccess({ users: r2.data.body })),
+                    r2 => dispatch(indexUsersWithWorkerFailure(r2))
                 ).catch(
-                    e2 => console.log('CATCH', e2)
+                    e2 => dispatch(indexUsersWithWorkerFailure(e2))
                 );
-                return dispatch(indexUsersWithWorkerSuccess(r1.data.body));
             },
             r1 => dispatch(indexUsersWithWorkerFailure(r1))
         ).catch(
