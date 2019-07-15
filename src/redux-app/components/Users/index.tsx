@@ -87,7 +87,6 @@ export class Users extends React.Component<IUsersProps, IUsersState> {
         return users ? (
             <React.Fragment>
                 <div style={{ position: 'fixed', top: '0', width: '100%', zIndex: 1 }}>
-                    <Blinker />
                     <div style={{ backgroundColor: '#CCCCCC' }}>
                         <button onClick={() => indexUsers()} type="button">
                             reload
@@ -96,6 +95,7 @@ export class Users extends React.Component<IUsersProps, IUsersState> {
                             reload with worker
                         </button>
                     </div>
+                    <Blinker />
                 </div>
                 {this.renderTable()}
             </React.Fragment>
