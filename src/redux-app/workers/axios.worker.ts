@@ -14,17 +14,17 @@ context.onmessage = (event) => {
     console.log('axios worker rx', event);
     axios(event.data as AxiosRequestConfig).then(
         r => {
-            console.log('axios worker tx', { data: r.data, type: 'SUCCESS' });
-            context.postMessage({ data: r.data, type: 'SUCCESS' });
+            console.log('axios worker tx', { body: r.data, type: 'SUCCESS' });
+            context.postMessage({ body: r.data, type: 'SUCCESS' });
         },
         r => {
-            console.log('axios worker tx', { data: r, type: 'FAILURE' });
-            context.postMessage({ data: r, type: 'FAILURE' });
+            console.log('axios worker tx', { body: r, type: 'FAILURE' });
+            context.postMessage({ body: r, type: 'FAILURE' });
         }
     ).catch(
         e => {
             console.log('axios worker tx', { body: e, type: 'CATCH' });
-            context.postMessage({ data: e, type: 'CATCH' });
+            context.postMessage({ body: e, type: 'CATCH' });
         }
     );
 };
