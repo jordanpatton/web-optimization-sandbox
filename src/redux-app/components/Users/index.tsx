@@ -50,16 +50,18 @@ export class Users extends React.Component<IUsersProps, IUsersState> {
     render() {
         return this.props.users ? (
             <React.Fragment>
-                <Blinker />
-                <div style={{ backgroundColor: '#CCCCCC' }}>
-                    <button onClick={() => this.props.indexUsers()} type="button">
-                        reload
-                    </button>
-                    <button onClick={() => this.props.indexUsersWithWorker()} type="button">
-                        reload with worker
-                    </button>
+                <div style={{ position: 'fixed', top: '0', width: '100%' }}>
+                    <Blinker />
+                    <div style={{ backgroundColor: '#CCCCCC' }}>
+                        <button onClick={() => this.props.indexUsers()} type="button">
+                            reload
+                        </button>
+                        <button onClick={() => this.props.indexUsersWithWorker()} type="button">
+                            reload with worker
+                        </button>
+                    </div>
                 </div>
-                <div style={{ padding: '24px' }}>
+                <div style={{ padding: '62px 24px 24px 24px' }}>
                     {this.renderTable()}
                 </div>
             </React.Fragment>
