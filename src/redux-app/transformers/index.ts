@@ -1,11 +1,4 @@
-export interface IUser {
-    id: number | string;
-    first_name: string;
-    last_name: string;
-    email_address: string;
-    company_name: string;
-    image_url: string;
-}
+import { IUser } from '../reducers';
 
 export function transformUsers(users: IUser[]): IUser[] {
     return users.map(user => ({

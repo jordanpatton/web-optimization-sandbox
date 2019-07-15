@@ -1,9 +1,17 @@
 import { combineReducers } from 'redux';
 
 import { INDEX_USERS_PENDING, INDEX_USERS_SUCCESS, INDEX_USERS_FAILURE } from '../actions';
-import { IUser, transformUsers } from '../transformers';
+import { transformUsers } from '../transformers';
 
 
+export interface IUser {
+    id: number | string;
+    first_name: string;
+    last_name: string;
+    email_address: string;
+    company_name: string;
+    image_url: string;
+}
 interface IUsersState {
     data?: { users: IUser[]; };
     error?: boolean;
