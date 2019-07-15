@@ -5,6 +5,7 @@ import { indexUsers } from '../../actions/users';
 import { indexUsersWithWorker } from '../../actions/usersWithWorker';
 import { IUser } from '../../reducers/users';
 import Blinker from '../Blinker';
+import { Column, Table } from 'react-virtualized';
 
 interface IUsersProps {
     indexUsers: () => Promise<any>;
@@ -21,42 +22,58 @@ export class Users extends React.Component<IUsersProps, IUsersState> {
     }
 
     renderTable() {
+        const { users } = this.props;
         return (
-            <table>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Email Address</th>
-                        <th>Company Name</th>
-                        <th>Avatar</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {this.props.users.map(user => (
-                        <tr key={user.id}>
-                            <th>{user.id}</th>
-                            <th>{user.first_name} {user.last_name}</th>
-                            <th>{user.email_address}</th>
-                            <th>{user.company_name}</th>
-                            <th><img src={user.image_url} alt="avatar" title="avatar" /></th>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
+            <Table
+                headerHeight={20}
+                height={1000}
+                rowCount={users.length}
+                rowGetter={({ index }) => users[index]}
+                rowHeight={30}
+                width={1000}
+            >
+                <Column
+                    dataKey="id"
+                    label="ID"
+                    width={100}
+                />
+                <Column
+                    cellDataGetter={({ rowData }) => `${rowData.first_name} ${rowData.last_name}`}
+                    dataKey="name"
+                    label="Name"
+                    width={100}
+                />
+                <Column
+                    dataKey="email_address"
+                    label="Email Address"
+                    width={100}
+                />
+                <Column
+                    dataKey="company_name"
+                    label="Company Name"
+                    width={100}
+                />
+                <Column
+                    cellRenderer={({ cellData }) => <img src={cellData} alt="avatar" title="avatar" />}
+                    dataKey="image_url"
+                    label="Avatar"
+                    width={100}
+                />
+            </Table>
         );
     }
 
     render() {
-        return this.props.users ? (
+        const { indexUsers, indexUsersWithWorker, users } = this.props;
+        return users ? (
             <React.Fragment>
                 <div style={{ position: 'fixed', top: '0', width: '100%' }}>
                     <Blinker />
                     <div style={{ backgroundColor: '#CCCCCC' }}>
-                        <button onClick={() => this.props.indexUsers()} type="button">
+                        <button onClick={() => indexUsers()} type="button">
                             reload
                         </button>
-                        <button onClick={() => this.props.indexUsersWithWorker()} type="button">
+                        <button onClick={() => indexUsersWithWorker()} type="button">
                             reload with worker
                         </button>
                     </div>
