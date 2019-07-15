@@ -8,3 +8,5 @@ web-worker-sandbox
 - https://github.com/webpack-contrib/worker-loader/issues/94
 - https://stackoverflow.com/questions/49172722/webpack-angular-5-worker-loader-karma
 - https://lorefnon.tech/2019/03/24/using-comlink-with-typescript-and-worker-loader/
+- https://bvaughn.github.io/react-virtualized/#/components/WindowScroller
+- https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/types/react-virtualized/dist/es/WindowScroller.d.ts
