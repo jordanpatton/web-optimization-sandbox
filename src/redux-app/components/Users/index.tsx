@@ -35,18 +35,18 @@ export class Users extends React.Component<IUsersProps, IUsersState> {
                 <Column
                     dataKey="id"
                     label="ID"
-                    width={100}
+                    width={50}
                 />
                 <Column
                     cellDataGetter={({ rowData }) => `${rowData.first_name} ${rowData.last_name}`}
                     dataKey="name"
-                    flexGrow={1}
+                    flexGrow={2}
                     label="Name"
                     width={100}
                 />
                 <Column
                     dataKey="email_address"
-                    flexGrow={1}
+                    flexGrow={2}
                     label="Email Address"
                     width={100}
                 />
