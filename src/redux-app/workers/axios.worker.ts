@@ -1,7 +1,6 @@
 // DO NOT IMPORT THIS FILE!
-// This defines the behaviors for a Web Worker, and its context is not the same as normal.
-// Its global context is not `window`, and you cannot use it with normal code intended for
-// the main thread.
+// This file defines behaviors for a Web Worker, and its context is not `window`. Do not
+// attempt to use it with `window`-based application code intended for the main thread.
 
 import axios from 'axios';
 
