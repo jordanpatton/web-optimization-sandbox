@@ -1,8 +1,9 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 
-import * as actions from '../../actions';
-import { IUser } from '../../reducers';
+import { indexUsers } from '../../actions/users';
+import { indexUsersWithWorker } from '../../actions/usersWithWorker';
+import { IUser } from '../../reducers/users';
 import Blinker from '../Blinker';
 
 interface IUsersProps {
@@ -73,8 +74,8 @@ const mapStateToProps = (state: any) => ({
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
-    indexUsers: () => dispatch(actions.indexUsers()),
-    indexUsersWithWorker: () => dispatch(actions.indexUsersWithWorker()),
+    indexUsers: () => dispatch(indexUsers()),
+    indexUsersWithWorker: () => dispatch(indexUsersWithWorker()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Users);
