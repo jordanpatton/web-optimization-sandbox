@@ -27,8 +27,9 @@ export class Users extends React.Component<IUsersProps, IUsersState> {
             <AutoSizer disableHeight>
                 {({ width }) => (
                     <Table
+                        autoHeight
                         headerHeight={20}
-                        height={1000}
+                        height={2000}
                         rowCount={users.length}
                         rowGetter={({ index }) => users[index]}
                         rowHeight={20}
@@ -85,9 +86,7 @@ export class Users extends React.Component<IUsersProps, IUsersState> {
                         </button>
                     </div>
                 </div>
-                <div style={{ padding: '62px 24px 24px 24px' }}>
-                    {this.renderTable()}
-                </div>
+                {this.renderTable()}
             </React.Fragment>
         ) : (
             <div style={{ padding: '24px' }}>Loading...</div>
