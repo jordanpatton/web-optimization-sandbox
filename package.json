@@ -4,6 +4,7 @@
   "description": "web-worker-sandbox",
   "main": "index.js",
   "scripts": {
+    "debug": "del-cli dist/* && webpack --mode development && nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "webpack:development": "webpack --mode development",
     "webpack:production": "webpack --mode production"
@@ -40,8 +41,10 @@
     "awesome-typescript-loader": "^5.2.1",
     "babel-loader": "^8.0.5",
     "css-loader": "^3.0.0",
+    "del-cli": "^2.0.0",
     "html-loader": "^0.5.5",
     "html-webpack-plugin": "^3.2.0",
+    "nodemon": "^1.19.1",
     "source-map-loader": "^0.2.4",
     "style-loader": "^0.23.1",
     "typescript": "^3.4.3",
