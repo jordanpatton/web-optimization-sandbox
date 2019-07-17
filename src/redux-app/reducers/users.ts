@@ -8,7 +8,6 @@ import {
     INDEX_USERS_WITH_WORKER_SUCCESS,
     INDEX_USERS_WITH_WORKER_FAILURE,
 } from '../actions/usersWithWorker';
-import { transformUsers } from '../transformers';
 import { IUser } from '../types';
 
 interface IUsersState {
@@ -50,15 +49,10 @@ export function users(state: IUsersState = {}, action: TUsersActionTypes): IUser
         case INDEX_USERS_WITH_WORKER_PENDING:
             return { ...state, error: undefined };
         case INDEX_USERS_SUCCESS:
-            return {
-                ...state,
-                data: { ...action.data, users: transformUsers(action.data.users) },
-                error: undefined,
-            };
         case INDEX_USERS_WITH_WORKER_SUCCESS:
             return {
                 ...state,
-                data: { ...action.data, users: action.data.users }, // do not transform
+                data: { ...action.data, users: action.data.users },
                 error: undefined,
             };
         case INDEX_USERS_FAILURE:

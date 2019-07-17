@@ -3,7 +3,7 @@
 // attempt to use it with `window`-based application code intended for the main thread.
 
 import { transformUsers } from '../transformers';
-import { IUser } from '../types';
+import { IApiUsersResponse } from '../types';
 
 const context: Worker = self as any;
 
@@ -15,7 +15,7 @@ context.onerror = (event) => {
 context.onmessage = (event) => {
     console.log('transformUsers worker rx', event);
     try {
-        const result = transformUsers(event.data.body.users as IUser[]);
+        const result = transformUsers(event.data.body.users as IApiUsersResponse['users']);
         console.log('transformUsers worker tx', { body: result, type: 'SUCCESS' });
         context.postMessage({ body: result, type: 'SUCCESS' });
     } catch (error) {

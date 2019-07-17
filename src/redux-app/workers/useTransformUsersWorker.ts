@@ -1,4 +1,4 @@
-import { IUser } from '../types';
+import { IApiUsersResponse, IUser } from '../types';
 
 import './declarations.d.ts';
 import TransformUsersWorker = require('./transformUsers.worker.ts');
@@ -9,7 +9,7 @@ import TransformUsersWorker = require('./transformUsers.worker.ts');
  * This is the only part of this Web Worker that window-based application modules should
  * import. It wraps the webpack-managed factory and promisifies the event-driven API.
  */
-export const useTransformUsersWorker = (users: IUser[]) => {
+export const useTransformUsersWorker = (users: IApiUsersResponse['users']) => {
     return new Promise((resolve, reject) => {
         // create new worker
         const worker = new TransformUsersWorker();

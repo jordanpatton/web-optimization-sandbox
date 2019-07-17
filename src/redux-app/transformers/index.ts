@@ -1,8 +1,8 @@
-import { IUser } from '../types';
+import { IApiUsersResponse, IUser } from '../types';
 
-export function transformUsers(users: IUser[]): IUser[] {
+export function transformUsers(users: IApiUsersResponse['users']): IUser[] {
     return users.map(user => ({
-        id: user.id,
+        id: String(user.id),
         first_name: `${user.first_name} ${Math.floor(Math.random() * Math.floor(2)) ? 'heads' : 'tails'}`,
         last_name: `${user.last_name} ${Math.floor(Math.random() * Math.floor(2)) ? 'heads' : 'tails'}`,
         email_address: `${user.email_address} ${Math.floor(Math.random() * Math.floor(2)) ? 'heads' : 'tails'}`,
