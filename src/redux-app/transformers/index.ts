@@ -1,4 +1,4 @@
-import { IUser } from '../reducers/users';
+import { IUser } from '../types';
 
 export function transformUsers(users: IUser[]): IUser[] {
     return users.map(user => ({

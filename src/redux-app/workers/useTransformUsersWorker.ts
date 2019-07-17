@@ -1,4 +1,4 @@
-import { IUser } from '../reducers/users';
+import { IUser } from '../types';
 
 import './declarations.d.ts';
 import TransformUsersWorker = require('./transformUsers.worker.ts');

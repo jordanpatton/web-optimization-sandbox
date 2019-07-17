@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import { indexUsers } from '../../actions/users';
 import { indexUsersWithWorker } from '../../actions/usersWithWorker';
-import { IUser } from '../../reducers/users';
+import { IUser } from '../../types';
 import Blinker from '../Blinker';
 import { AutoSizer, AutoSizerProps, Column, Table, WindowScroller, WindowScrollerChildProps } from 'react-virtualized';
 

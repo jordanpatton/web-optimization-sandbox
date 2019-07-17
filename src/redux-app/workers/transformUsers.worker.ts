@@ -2,8 +2,8 @@
 // This file defines behaviors for a Web Worker, and its context is not `window`. Do not
 // attempt to use it with `window`-based application code intended for the main thread.
 
-import { IUser } from '../reducers/users';
 import { transformUsers } from '../transformers';
+import { IUser } from '../types';
 
 const context: Worker = self as any;
 

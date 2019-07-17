@@ -9,15 +9,8 @@ import {
     INDEX_USERS_WITH_WORKER_FAILURE,
 } from '../actions/usersWithWorker';
 import { transformUsers } from '../transformers';
+import { IUser } from '../types';
 
-export interface IUser {
-    id: number | string;
-    first_name: string;
-    last_name: string;
-    email_address: string;
-    company_name: string;
-    image_url: string;
-}
 interface IUsersState {
     data?: { users: IUser[]; };
     error?: boolean;
