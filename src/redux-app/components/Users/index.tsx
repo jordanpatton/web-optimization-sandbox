@@ -5,7 +5,7 @@ import { indexUsers } from '../../actions/users';
 import { indexUsersWithWorker } from '../../actions/usersWithWorker';
 import { IUser } from '../../types';
 import Blinker from '../Blinker';
-import { AutoSizer, AutoSizerProps, Column, Table, WindowScroller, WindowScrollerChildProps } from 'react-virtualized';
+import { AutoSizer, Column, Table, WindowScroller } from 'react-virtualized';
 
 interface IUsersProps {
     indexUsers: () => Promise<any>;
@@ -21,9 +21,6 @@ export class Users extends React.Component<IUsersProps, IUsersState> {
         super(props);
         this.state = { isVirtualized: false };
     }
-
-    private tableRef = React.createRef<Table>();
-    private windowScrollerRef = React.createRef<WindowScroller>();
 
     componentDidMount() {
         if (!this.props.users) {
@@ -58,65 +55,60 @@ export class Users extends React.Component<IUsersProps, IUsersState> {
         );
     }
 
-    renderVirtualizedTable({
-        height,
-        isScrolling,
-        onChildScroll,
-        scrollTop,
-        width,
-    }: {
-        height: WindowScrollerChildProps['height'],
-        isScrolling: WindowScrollerChildProps['isScrolling'],
-        onChildScroll: WindowScrollerChildProps['onChildScroll'],
-        scrollTop: WindowScrollerChildProps['scrollTop'],
-        width: AutoSizerProps['width'],
-    }) {
+    renderVirtualizedTable() {
         const { users } = this.props;
         return (
-            <Table
-                autoHeight
-                headerHeight={20}
-                height={height}
-                isScrolling={isScrolling}
-                onScroll={onChildScroll}
-                ref={this.tableRef}
-                rowCount={users.length}
-                rowGetter={({ index }) => users[index]}
-                rowHeight={20}
-                scrollTop={scrollTop}
-                width={width}
-            >
-                <Column
-                    dataKey="id"
-                    label="ID"
-                    width={50}
-                />
-                <Column
-                    cellDataGetter={({ rowData }) => `${rowData.first_name} ${rowData.last_name}`}
-                    dataKey="name"
-                    flexGrow={2}
-                    label="Name"
-                    width={100}
-                />
-                <Column
-                    dataKey="email_address"
-                    flexGrow={2}
-                    label="Email Address"
-                    width={100}
-                />
-                <Column
-                    dataKey="company_name"
-                    flexGrow={1}
-                    label="Company Name"
-                    width={100}
-                />
-                <Column
-                    cellRenderer={({ cellData }) => <img src={cellData} alt="avatar" title="avatar" />}
-                    dataKey="image_url"
-                    label="Avatar"
-                    width={100}
-                />
-            </Table>
+            <WindowScroller>
+                {({ height, isScrolling, onChildScroll, scrollTop }) => (
+                    <AutoSizer disableHeight>
+                        {({ width }) => (
+                            <Table
+                                autoHeight
+                                headerHeight={20}
+                                height={height}
+                                isScrolling={isScrolling}
+                                onScroll={onChildScroll}
+                                rowCount={users.length}
+                                rowGetter={({ index }) => users[index]}
+                                rowHeight={20}
+                                scrollTop={scrollTop}
+                                width={width}
+                            >
+                                <Column
+                                    dataKey="id"
+                                    label="ID"
+                                    width={50}
+                                />
+                                <Column
+                                    cellDataGetter={({ rowData }) => `${rowData.first_name} ${rowData.last_name}`}
+                                    dataKey="name"
+                                    flexGrow={2}
+                                    label="Name"
+                                    width={100}
+                                />
+                                <Column
+                                    dataKey="email_address"
+                                    flexGrow={2}
+                                    label="Email Address"
+                                    width={100}
+                                />
+                                <Column
+                                    dataKey="company_name"
+                                    flexGrow={1}
+                                    label="Company Name"
+                                    width={100}
+                                />
+                                <Column
+                                    cellRenderer={({ cellData }) => <img src={cellData} alt="avatar" title="avatar" />}
+                                    dataKey="image_url"
+                                    label="Avatar"
+                                    width={100}
+                                />
+                            </Table>
+                        )}
+                    </AutoSizer>
+                )}
+            </WindowScroller>
         );
     }
 
@@ -151,21 +143,7 @@ export class Users extends React.Component<IUsersProps, IUsersState> {
                     <Blinker />
                 </div>
                 <div style={{ padding: '62px 24px 24px 24px' }}>
-                    {this.state.isVirtualized ? (
-                        <WindowScroller ref={this.windowScrollerRef}>
-                            {({ height, isScrolling, onChildScroll, scrollTop }) => (
-                                <AutoSizer disableHeight>
-                                    {({ width }) => this.renderVirtualizedTable({
-                                        height,
-                                        isScrolling,
-                                        onChildScroll,
-                                        scrollTop,
-                                        width,
-                                    })}
-                                </AutoSizer>
-                            )}
-                        </WindowScroller>
-                    ) : this.renderBasicTable()}
+                    {this.state.isVirtualized ? this.renderVirtualizedTable() : this.renderBasicTable()}
                 </div>
             </React.Fragment>
         ) : (
