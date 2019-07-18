@@ -12,9 +12,16 @@ interface IUsersProps {
     indexUsersWithWorker: () => Promise<any>;
     users?: IUser[];
 };
-interface IUsersState {};
+interface IUsersState {
+    isVirtualized: boolean;
+};
 
 export class Users extends React.Component<IUsersProps, IUsersState> {
+    constructor(props: IUsersProps) {
+        super(props);
+        this.state = { isVirtualized: false };
+    }
+
     private tableRef = React.createRef<Table>();
     private windowScrollerRef = React.createRef<WindowScroller>();
 
@@ -24,7 +31,34 @@ export class Users extends React.Component<IUsersProps, IUsersState> {
         }
     }
 
-    renderTable({
+    renderBasicTable() {
+        return (
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Email Address</th>
+                        <th>Company Name</th>
+                        <th>Avatar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {this.props.users.map(user => (
+                        <tr key={user.id}>
+                            <th>{user.id}</th>
+                            <th>{user.first_name} {user.last_name}</th>
+                            <th>{user.email_address}</th>
+                            <th>{user.company_name}</th>
+                            <th><img src={user.image_url} alt="avatar" title="avatar" /></th>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+        );
+    }
+
+    renderVirtualizedTable({
         height,
         isScrolling,
         onChildScroll,
@@ -92,23 +126,37 @@ export class Users extends React.Component<IUsersProps, IUsersState> {
             <React.Fragment>
                 <div style={{ position: 'fixed', top: '0', width: '100%', zIndex: 1 }}>
                     <div style={{ backgroundColor: '#CCCCCC' }}>
-                        <button onClick={() => indexUsers()} type="button">
-                            reload
+                        <button onClick={() => this.setState({ isVirtualized: false }, () => indexUsers())} type="button">
+                            reload non-virtualized table without worker
                         </button>
-                        <button onClick={() => indexUsersWithWorker()} type="button">
-                            reload with worker
+                        <button onClick={() => this.setState({ isVirtualized: false }, () => indexUsersWithWorker())} type="button">
+                            reload non-virtualized table with worker
+                        </button>
+                        <button onClick={() => this.setState({ isVirtualized: true }, () => indexUsers())} type="button">
+                            reload virtualized table without worker
+                        </button>
+                        <button onClick={() => this.setState({ isVirtualized: true }, () => indexUsersWithWorker())} type="button">
+                            reload virtualized table with worker
                         </button>
                     </div>
                     <Blinker />
                 </div>
                 <div style={{ padding: '62px 24px 24px 24px' }}>
-                    <WindowScroller ref={this.windowScrollerRef}>
-                        {({ height, isScrolling, onChildScroll, scrollTop }) => (
-                            <AutoSizer disableHeight>
-                                {({ width }) => this.renderTable({ height, isScrolling, onChildScroll, scrollTop, width })}
-                            </AutoSizer>
-                        )}
-                    </WindowScroller>
+                    {this.state.isVirtualized ? (
+                        <WindowScroller ref={this.windowScrollerRef}>
+                            {({ height, isScrolling, onChildScroll, scrollTop }) => (
+                                <AutoSizer disableHeight>
+                                    {({ width }) => this.renderVirtualizedTable({
+                                        height,
+                                        isScrolling,
+                                        onChildScroll,
+                                        scrollTop,
+                                        width,
+                                    })}
+                                </AutoSizer>
+                            )}
+                        </WindowScroller>
+                    ) : this.renderBasicTable()}
                 </div>
             </React.Fragment>
         ) : (
