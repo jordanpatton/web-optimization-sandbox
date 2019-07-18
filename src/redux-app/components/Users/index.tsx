@@ -38,6 +38,7 @@ export class Users extends React.Component<IUsersProps, IUsersState> {
                         <th>Email Address</th>
                         <th>Company Name</th>
                         <th>Avatar</th>
+                        <th>Coin Flip</th>
                         <th>Revenue</th>
                     </tr>
                 </thead>
@@ -49,6 +50,7 @@ export class Users extends React.Component<IUsersProps, IUsersState> {
                             <td>{user.email_address}</td>
                             <td>{user.company_name}</td>
                             <td><img src={user.image_url} alt="avatar" title="avatar" /></td>
+                            <td>{user.coin_flip}</td>
                             <td>todo</td>
                         </tr>
                     ))}
@@ -104,6 +106,11 @@ export class Users extends React.Component<IUsersProps, IUsersState> {
                                     cellRenderer={({ cellData }) => <img src={cellData} alt="avatar" title="avatar" />}
                                     dataKey="image_url"
                                     label="Avatar"
+                                    width={100}
+                                />
+                                <Column
+                                    dataKey="coin_flip"
+                                    label="Coin Flip"
                                     width={100}
                                 />
                                 <Column

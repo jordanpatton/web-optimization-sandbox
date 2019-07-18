@@ -41,4 +41,5 @@ export interface IUser {
     email_address: string;
     company_name: string;
     image_url: string;
+    coin_flip: string;
 }
