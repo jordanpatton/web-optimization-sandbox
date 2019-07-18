@@ -38,16 +38,18 @@ export class Users extends React.Component<IUsersProps, IUsersState> {
                         <th>Email Address</th>
                         <th>Company Name</th>
                         <th>Avatar</th>
+                        <th>Revenue</th>
                     </tr>
                 </thead>
                 <tbody>
                     {this.props.users.map(user => (
                         <tr key={user.id} style={{ height: '40px' }}>
-                            <th>{user.id}</th>
-                            <th>{user.first_name} {user.last_name}</th>
-                            <th>{user.email_address}</th>
-                            <th>{user.company_name}</th>
-                            <th><img src={user.image_url} alt="avatar" title="avatar" /></th>
+                            <td>{user.id}</td>
+                            <td>{user.first_name} {user.last_name}</td>
+                            <td>{user.email_address}</td>
+                            <td>{user.company_name}</td>
+                            <td><img src={user.image_url} alt="avatar" title="avatar" /></td>
+                            <td>todo</td>
                         </tr>
                     ))}
                 </tbody>
@@ -102,6 +104,12 @@ export class Users extends React.Component<IUsersProps, IUsersState> {
                                     cellRenderer={({ cellData }) => <img src={cellData} alt="avatar" title="avatar" />}
                                     dataKey="image_url"
                                     label="Avatar"
+                                    width={100}
+                                />
+                                <Column
+                                    cellDataGetter={() => 'todo'}
+                                    dataKey="revenue"
+                                    label="Revenue"
                                     width={100}
                                 />
                             </Table>
