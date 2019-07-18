@@ -6,9 +6,9 @@ import {
 } from '../types';
 
 export function transformObservations(observations: IApiObservationsResponse['observations']): IObservation[] {
-    return observations.map(observation => ({
-        timestampMs: (new Date(`${observation.fiscal_year}-${observation.fiscal_month}`)).getTime(),
-        valueUsd: parseFloat(observation.revenue_collected),
+    return observations.slice(0, 30).map((val, idx) => ({
+        timestampMs: (new Date(`2019-01-${idx} 00:00:01 UTC`)).getTime(),
+        valueUsd: parseFloat(val.revenue_collected),
     }));
 }
 
