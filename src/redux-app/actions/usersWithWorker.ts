@@ -19,10 +19,10 @@ export function indexUsersWithWorker() {
     return (dispatch: Dispatch) => {
         dispatch(indexUsersWithWorkerPending());
         return useAxiosWorker({ method: 'GET', url: 'http://localhost:3000/api/users' }).then(
-            (r1: { data: { body: IApiUsersResponse } }) => {
-                return useTransformUsersWorker((r1.data.body as IApiUsersResponse).users).then(
-                    (r2: { data: { body: IUser[] } }) => {
-                        return dispatch(indexUsersWithWorkerSuccess({ users: r2.data.body }));
+            (r1: IApiUsersResponse) => {
+                return useTransformUsersWorker(r1.users).then(
+                    (r2: IUser[]) => {
+                        return dispatch(indexUsersWithWorkerSuccess({ users: r2 }));
                     },
                     r2 => dispatch(indexUsersWithWorkerFailure(r2))
                 ).catch(

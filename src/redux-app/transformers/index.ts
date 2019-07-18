@@ -1,4 +1,16 @@
-import { IApiUsersResponse, IUser } from '../types';
+import {
+    IApiObservationsResponse,
+    IApiUsersResponse,
+    IObservation,
+    IUser,
+} from '../types';
+
+export function transformObservations(observations: IApiObservationsResponse['observations']): IObservation[] {
+    return observations.map(observation => ({
+        timestampMs: (new Date(`${observation.fiscal_year}-${observation.fiscal_month}`)).getTime(),
+        valueUsd: parseFloat(observation.revenue_collected),
+    }));
+}
 
 export function transformUsers(users: IApiUsersResponse['users']): IUser[] {
     return users.map(user => ({

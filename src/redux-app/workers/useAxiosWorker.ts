@@ -23,7 +23,7 @@ export const useAxiosWorker = (axiosRequestConfig: AxiosRequestConfig) => {
         worker.onmessage = (event) => {
             console.log('useAxiosWorker rx', event);
             if (event.data.type === 'SUCCESS') {
-                resolve(event);
+                resolve(event.data.body);
             } else {
                 reject(event);
             }

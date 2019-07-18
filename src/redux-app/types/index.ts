@@ -26,10 +26,13 @@ export interface IApiObservationsResponse {
         department: string;
         revenue_source_class: string;
         revenue_source: string;
-    };
+    }[];
 }
 
-export interface IObservation {}
+export interface IObservation {
+    timestampMs: number;
+    valueUsd: number;
+}
 
 export interface IUser {
     id: string;
