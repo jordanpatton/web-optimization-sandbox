@@ -122,21 +122,30 @@ export class Users extends React.Component<IUsersProps, IUsersState> {
 
     render() {
         const { indexUsers, indexUsersWithWorker, users } = this.props;
+        const { isVirtualized } = this.state;
         return users ? (
             <React.Fragment>
                 <div style={{ position: 'fixed', top: '0', width: '100%', zIndex: 1 }}>
                     <div style={{ backgroundColor: '#CCCCCC' }}>
-                        <button onClick={() => this.setState({ isVirtualized: false }, () => indexUsers())} type="button">
-                            reload non-virtualized table without worker
+                        <div style={{ display: 'inline-block' }}>
+                            <input
+                                checked={isVirtualized}
+                                id="isVirtualized"
+                                name="isVirtualized"
+                                onChange={e => this.setState({ isVirtualized: e.target.checked })}
+                                type="checkbox"
+                            />
+                            <label htmlFor="isVirtualized">
+                                virtualize
+                            </label>
+                        </div>
+                        <span>&nbsp;&nbsp;</span>
+                        <button onClick={() => indexUsers()} type="button">
+                            reload without worker
                         </button>
-                        <button onClick={() => this.setState({ isVirtualized: false }, () => indexUsersWithWorker())} type="button">
-                            reload non-virtualized table with worker
-                        </button>
-                        <button onClick={() => this.setState({ isVirtualized: true }, () => indexUsers())} type="button">
-                            reload virtualized table without worker
-                        </button>
-                        <button onClick={() => this.setState({ isVirtualized: true }, () => indexUsersWithWorker())} type="button">
-                            reload virtualized table with worker
+                        <span>&nbsp;&nbsp;</span>
+                        <button onClick={() => indexUsersWithWorker()} type="button">
+                            reload with worker
                         </button>
                     </div>
                     <Blinker />
