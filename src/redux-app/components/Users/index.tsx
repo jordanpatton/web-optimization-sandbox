@@ -30,9 +30,9 @@ export class Users extends React.Component<IUsersProps, IUsersState> {
 
     renderBasicTable() {
         return (
-            <table>
+            <table style={{ textAlign: 'left', width: '100%' }}>
                 <thead>
-                    <tr>
+                    <tr style={{ fontWeight: 'bold', height: '40px', textTransform: 'uppercase' }}>
                         <th>ID</th>
                         <th>Name</th>
                         <th>Email Address</th>
@@ -42,7 +42,7 @@ export class Users extends React.Component<IUsersProps, IUsersState> {
                 </thead>
                 <tbody>
                     {this.props.users.map(user => (
-                        <tr key={user.id}>
+                        <tr key={user.id} style={{ height: '40px' }}>
                             <th>{user.id}</th>
                             <th>{user.first_name} {user.last_name}</th>
                             <th>{user.email_address}</th>
@@ -64,13 +64,13 @@ export class Users extends React.Component<IUsersProps, IUsersState> {
                         {({ width }) => (
                             <Table
                                 autoHeight
-                                headerHeight={20}
+                                headerHeight={40}
                                 height={height}
                                 isScrolling={isScrolling}
                                 onScroll={onChildScroll}
                                 rowCount={users.length}
                                 rowGetter={({ index }) => users[index]}
-                                rowHeight={20}
+                                rowHeight={40}
                                 scrollTop={scrollTop}
                                 width={width}
                             >
