@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { indexObservations } from '../../../../actions/observations';
 import { indexObservationsWithWorker } from '../../../../actions/observationsWithWorker';
 import FlexibleSparkline from '../../../../charts/FlexibleSparkline';
+import LoadingIndicator from '../../../../components/LoadingIndicator';
 import { IObservation } from '../../../../types';
 
 interface IFlexibleSparklineContainerProps {
@@ -54,7 +55,7 @@ export class FlexibleSparklineContainer extends React.Component<IFlexibleSparkli
             );
         }
 
-        return null;
+        return <LoadingIndicator style={{ height: '20px', width: '20px' }} />;
     }
 }
 

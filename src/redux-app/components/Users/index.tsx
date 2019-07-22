@@ -5,6 +5,7 @@ import { AutoSizer, Column, Table, WindowScroller } from 'react-virtualized';
 import { indexUsers } from '../../actions/users';
 import { indexUsersWithWorker } from '../../actions/usersWithWorker';
 import { IUser } from '../../types';
+import LoadingIndicator from '../LoadingIndicator';
 import Blinker from './components/Blinker';
 import FlexibleSparklineContainer from './components/FlexibleSparklineContainer';
 
@@ -184,7 +185,17 @@ export class Users extends React.Component<IUsersProps, IUsersState> {
                 </div>
             </React.Fragment>
         ) : (
-            <div style={{ padding: '24px' }}>Loading...</div>
+            <div
+                style={{
+                    alignItems: 'center',
+                    display: 'flex',
+                    height: '100vh',
+                    justifyContent: 'center',
+                    width: '100vh',
+                }}
+            >
+                <LoadingIndicator />
+            </div>
         );
     }
 }
