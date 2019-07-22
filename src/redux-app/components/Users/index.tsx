@@ -1,11 +1,12 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
+import { AutoSizer, Column, Table, WindowScroller } from 'react-virtualized';
 
 import { indexUsers } from '../../actions/users';
 import { indexUsersWithWorker } from '../../actions/usersWithWorker';
 import { IUser } from '../../types';
-import Blinker from '../Blinker';
-import { AutoSizer, Column, Table, WindowScroller } from 'react-virtualized';
+import Blinker from './components/Blinker';
+import Chart from './components/Chart';
 
 interface IUsersProps {
     indexUsers: () => Promise<any>;
@@ -57,7 +58,7 @@ export class Users extends React.Component<IUsersProps, IUsersState> {
                             <td>{user.company_name}</td>
                             <td><img src={user.image_url} alt="avatar" title="avatar" /></td>
                             <td>{user.coin_flip}</td>
-                            <td>{chartIsVisible ? 'chart' : ''}</td>
+                            <td>{chartIsVisible ? <Chart /> : ''}</td>
                         </tr>
                     ))}
                 </tbody>
@@ -121,7 +122,8 @@ export class Users extends React.Component<IUsersProps, IUsersState> {
                                     width={100}
                                 />
                                 <Column
-                                    cellDataGetter={() => chartIsVisible ? 'chart' : ''}
+                                    cellDataGetter={() => {}}
+                                    cellRenderer={() => chartIsVisible ? <Chart /> : ''}
                                     dataKey="revenue"
                                     label="Revenue"
                                     width={100}
