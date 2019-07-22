@@ -6,17 +6,17 @@ import { indexUsers } from '../../actions/users';
 import { indexUsersWithWorker } from '../../actions/usersWithWorker';
 import { IUser } from '../../types';
 import Blinker from './components/Blinker';
-import Chart from './components/Chart';
+import FlexibleSparklineContainer from './components/FlexibleSparklineContainer';
 
 interface IUsersProps {
     indexUsers: () => Promise<any>;
     indexUsersWithWorker: () => Promise<any>;
     users?: IUser[];
-};
+}
 interface IUsersState {
     chartIsVisible: boolean;
     tableIsVirtualized: boolean;
-};
+}
 
 export class Users extends React.Component<IUsersProps, IUsersState> {
     constructor(props: IUsersProps) {
@@ -58,7 +58,7 @@ export class Users extends React.Component<IUsersProps, IUsersState> {
                             <td>{user.company_name}</td>
                             <td><img src={user.image_url} alt="avatar" title="avatar" /></td>
                             <td>{user.coin_flip}</td>
-                            <td>{chartIsVisible ? <Chart /> : ''}</td>
+                            <td>{chartIsVisible ? <FlexibleSparklineContainer /> : ''}</td>
                         </tr>
                     ))}
                 </tbody>
@@ -123,7 +123,7 @@ export class Users extends React.Component<IUsersProps, IUsersState> {
                                 />
                                 <Column
                                     cellDataGetter={() => {}}
-                                    cellRenderer={() => chartIsVisible ? <Chart /> : ''}
+                                    cellRenderer={() => chartIsVisible ? <FlexibleSparklineContainer /> : ''}
                                     dataKey="revenue"
                                     label="Revenue"
                                     width={100}

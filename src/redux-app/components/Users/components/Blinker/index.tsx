@@ -1,9 +1,9 @@
 import * as React from 'react';
 
-interface IBlinkerProps {};
+interface IBlinkerProps {}
 interface IBlinkerState {
     isActive: boolean;
-};
+}
 
 export class Blinker extends React.Component<IBlinkerProps, IBlinkerState> {
     constructor(props: IBlinkerProps) {
