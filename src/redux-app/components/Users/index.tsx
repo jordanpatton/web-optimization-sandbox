@@ -46,7 +46,7 @@ export class Users extends React.Component<IUsersProps, IUsersState> {
                         <th>Company Name</th>
                         <th>Avatar</th>
                         <th>Coin Flip</th>
-                        <th>Revenue</th>
+                        <th>Observations</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -58,7 +58,7 @@ export class Users extends React.Component<IUsersProps, IUsersState> {
                             <td>{user.company_name}</td>
                             <td><img src={user.image_url} alt="avatar" title="avatar" /></td>
                             <td>{user.coin_flip}</td>
-                            <td>{chartIsVisible ? <FlexibleSparklineContainer /> : ''}</td>
+                            <td>{chartIsVisible ? <FlexibleSparklineContainer /> : null}</td>
                         </tr>
                     ))}
                 </tbody>
@@ -123,9 +123,9 @@ export class Users extends React.Component<IUsersProps, IUsersState> {
                                 />
                                 <Column
                                     cellDataGetter={() => {}}
-                                    cellRenderer={() => chartIsVisible ? <FlexibleSparklineContainer /> : ''}
-                                    dataKey="revenue"
-                                    label="Revenue"
+                                    cellRenderer={() => chartIsVisible ? <FlexibleSparklineContainer /> : null}
+                                    dataKey="observations"
+                                    label="Observations"
                                     width={100}
                                 />
                             </Table>

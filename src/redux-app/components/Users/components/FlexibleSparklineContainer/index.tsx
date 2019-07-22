@@ -44,11 +44,13 @@ export class FlexibleSparklineContainer extends React.Component<IFlexibleSparkli
 
             // render as chart
             return (
-                <FlexibleSparkline
-                    data={{ defaultSeriesName: series }}
-                    xDomain={[start, end]}
-                    xType="time"
-                />
+                <div style={{ height: '20px', width: '200px' }}>
+                    <FlexibleSparkline
+                        data={{ defaultSeriesName: series }}
+                        xDomain={[start, end]}
+                        xType="time"
+                    />
+                </div>
             );
         }
 
