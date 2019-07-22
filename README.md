@@ -1,5 +1,5 @@
-# web-worker-sandbox
-web-worker-sandbox
+# web-optimization-sandbox
+Web Optimization Sandbox
 
 ### Links
 - http://localhost:3000/dist/index.html
