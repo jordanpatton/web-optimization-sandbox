@@ -13,13 +13,17 @@ interface IUsersProps {
     users?: IUser[];
 };
 interface IUsersState {
-    isVirtualized: boolean;
+    chartIsVisible: boolean;
+    tableIsVirtualized: boolean;
 };
 
 export class Users extends React.Component<IUsersProps, IUsersState> {
     constructor(props: IUsersProps) {
         super(props);
-        this.state = { isVirtualized: false };
+        this.state = {
+            chartIsVisible: false,
+            tableIsVirtualized: false,
+        };
     }
 
     componentDidMount() {
@@ -29,6 +33,8 @@ export class Users extends React.Component<IUsersProps, IUsersState> {
     }
 
     renderBasicTable() {
+        const { users } = this.props;
+        const { chartIsVisible } = this.state;
         return (
             <table style={{ textAlign: 'left', width: '100%' }}>
                 <thead>
@@ -43,7 +49,7 @@ export class Users extends React.Component<IUsersProps, IUsersState> {
                     </tr>
                 </thead>
                 <tbody>
-                    {this.props.users.map(user => (
+                    {users.map(user => (
                         <tr key={user.id} style={{ height: '40px' }}>
                             <td>{user.id}</td>
                             <td>{user.first_name} {user.last_name}</td>
@@ -51,7 +57,7 @@ export class Users extends React.Component<IUsersProps, IUsersState> {
                             <td>{user.company_name}</td>
                             <td><img src={user.image_url} alt="avatar" title="avatar" /></td>
                             <td>{user.coin_flip}</td>
-                            <td>todo</td>
+                            <td>{chartIsVisible ? 'chart' : ''}</td>
                         </tr>
                     ))}
                 </tbody>
@@ -61,6 +67,7 @@ export class Users extends React.Component<IUsersProps, IUsersState> {
 
     renderVirtualizedTable() {
         const { users } = this.props;
+        const { chartIsVisible } = this.state;
         return (
             <WindowScroller>
                 {({ height, isScrolling, onChildScroll, scrollTop }) => (
@@ -114,7 +121,7 @@ export class Users extends React.Component<IUsersProps, IUsersState> {
                                     width={100}
                                 />
                                 <Column
-                                    cellDataGetter={() => 'todo'}
+                                    cellDataGetter={() => chartIsVisible ? 'chart' : ''}
                                     dataKey="revenue"
                                     label="Revenue"
                                     width={100}
@@ -129,28 +136,41 @@ export class Users extends React.Component<IUsersProps, IUsersState> {
 
     render() {
         const { indexUsers, indexUsersWithWorker, users } = this.props;
-        const { isVirtualized } = this.state;
+        const { chartIsVisible, tableIsVirtualized } = this.state;
         return users ? (
             <React.Fragment>
                 <div style={{ position: 'fixed', top: '0', width: '100%', zIndex: 1 }}>
                     <div style={{ backgroundColor: '#CCCCCC' }}>
                         <div style={{ display: 'inline-block' }}>
                             <input
-                                checked={isVirtualized}
-                                id="isVirtualized"
-                                name="isVirtualized"
-                                onChange={e => this.setState({ isVirtualized: e.target.checked })}
+                                checked={tableIsVirtualized}
+                                id="tableIsVirtualized"
+                                name="tableIsVirtualized"
+                                onChange={e => this.setState({ tableIsVirtualized: e.target.checked })}
                                 type="checkbox"
                             />
-                            <label htmlFor="isVirtualized">
+                            <label htmlFor="tableIsVirtualized">
                                 virtualize
                             </label>
                         </div>
-                        <span>&nbsp;&nbsp;</span>
+                        <span>&nbsp;&nbsp;&nbsp;</span>
+                        <div style={{ display: 'inline-block' }}>
+                            <input
+                                checked={chartIsVisible}
+                                id="chartIsVisible"
+                                name="chartIsVisible"
+                                onChange={e => this.setState({ chartIsVisible: e.target.checked })}
+                                type="checkbox"
+                            />
+                            <label htmlFor="chartIsVisible">
+                                show chart
+                            </label>
+                        </div>
+                        <span>&nbsp;&nbsp;&nbsp;</span>
                         <button onClick={() => indexUsers()} type="button">
                             reload without worker
                         </button>
-                        <span>&nbsp;&nbsp;</span>
+                        <span>&nbsp;&nbsp;&nbsp;</span>
                         <button onClick={() => indexUsersWithWorker()} type="button">
                             reload with worker
                         </button>
@@ -158,7 +178,7 @@ export class Users extends React.Component<IUsersProps, IUsersState> {
                     <Blinker />
                 </div>
                 <div style={{ padding: '62px 24px 24px 24px' }}>
-                    {this.state.isVirtualized ? this.renderVirtualizedTable() : this.renderBasicTable()}
+                    {tableIsVirtualized ? this.renderVirtualizedTable() : this.renderBasicTable()}
                 </div>
             </React.Fragment>
         ) : (
