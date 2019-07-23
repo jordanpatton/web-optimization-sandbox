@@ -15,9 +15,12 @@ interface IFlexibleSparklineContainerProps {
 
 export class FlexibleSparklineContainer extends React.Component<IFlexibleSparklineContainerProps> {
     componentDidMount() {
-        if (!this.props.observations) {
-            this.props.indexObservations();
-        }
+        // if (!this.props.observations) {
+        //     this.props.indexObservations();
+        // }
+        // intentionally do not check for pre-existing data to emulate the data being
+        // different for each instance of the component
+        this.props.indexObservations();
     }
 
     render() {
