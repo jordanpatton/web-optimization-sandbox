@@ -6,6 +6,7 @@ import { indexUsers } from '../../actions/users';
 import { indexUsersWithWorker } from '../../actions/usersWithWorker';
 import { IUser } from '../../types';
 import LoadingIndicator from '../LoadingIndicator';
+import WindowScrollDetector from '../WindowScrollDetector';
 import Blinker from './components/Blinker';
 import FlexibleSparklineContainer from './components/FlexibleSparklineContainer';
 
@@ -141,49 +142,55 @@ export class Users extends React.Component<IUsersProps, IUsersState> {
         const { indexUsers, indexUsersWithWorker, users } = this.props;
         const { chartIsVisible, tableIsVirtualized } = this.state;
         return users ? (
-            <React.Fragment>
-                <div style={{ position: 'fixed', top: '0', width: '100%', zIndex: 1 }}>
-                    <div style={{ backgroundColor: '#CCCCCC' }}>
-                        <div style={{ display: 'inline-block' }}>
-                            <input
-                                checked={tableIsVirtualized}
-                                id="tableIsVirtualized"
-                                name="tableIsVirtualized"
-                                onChange={e => this.setState({ tableIsVirtualized: e.target.checked })}
-                                type="checkbox"
-                            />
-                            <label htmlFor="tableIsVirtualized">
-                                virtualize
-                            </label>
+            <WindowScrollDetector>
+                {({ isScrolling }) => (
+                    <React.Fragment>
+                        <div style={{ position: 'fixed', top: '0', width: '100%', zIndex: 1 }}>
+                            <div style={{ backgroundColor: '#CCCCCC' }}>
+                                <div style={{ display: 'inline-block' }}>
+                                    <input
+                                        checked={tableIsVirtualized}
+                                        id="tableIsVirtualized"
+                                        name="tableIsVirtualized"
+                                        onChange={e => this.setState({ tableIsVirtualized: e.target.checked })}
+                                        type="checkbox"
+                                    />
+                                    <label htmlFor="tableIsVirtualized">
+                                        virtualize
+                                    </label>
+                                </div>
+                                <span>&nbsp;&nbsp;&nbsp;</span>
+                                <div style={{ display: 'inline-block' }}>
+                                    <input
+                                        checked={chartIsVisible}
+                                        id="chartIsVisible"
+                                        name="chartIsVisible"
+                                        onChange={e => this.setState({ chartIsVisible: e.target.checked })}
+                                        type="checkbox"
+                                    />
+                                    <label htmlFor="chartIsVisible">
+                                        show chart
+                                    </label>
+                                </div>
+                                <span>&nbsp;&nbsp;&nbsp;</span>
+                                <button onClick={() => indexUsers()} type="button">
+                                    reload without worker
+                                </button>
+                                <span>&nbsp;&nbsp;&nbsp;</span>
+                                <button onClick={() => indexUsersWithWorker()} type="button">
+                                    reload with worker
+                                </button>
+                                <span>&nbsp;&nbsp;&nbsp;</span>
+                                <span>{isScrolling ? 'scrolling' : 'not scrolling'}</span>
+                            </div>
+                            <Blinker />
                         </div>
-                        <span>&nbsp;&nbsp;&nbsp;</span>
-                        <div style={{ display: 'inline-block' }}>
-                            <input
-                                checked={chartIsVisible}
-                                id="chartIsVisible"
-                                name="chartIsVisible"
-                                onChange={e => this.setState({ chartIsVisible: e.target.checked })}
-                                type="checkbox"
-                            />
-                            <label htmlFor="chartIsVisible">
-                                show chart
-                            </label>
+                        <div style={{ padding: '62px 24px 24px 24px' }}>
+                            {tableIsVirtualized ? this.renderVirtualizedTable() : this.renderBasicTable()}
                         </div>
-                        <span>&nbsp;&nbsp;&nbsp;</span>
-                        <button onClick={() => indexUsers()} type="button">
-                            reload without worker
-                        </button>
-                        <span>&nbsp;&nbsp;&nbsp;</span>
-                        <button onClick={() => indexUsersWithWorker()} type="button">
-                            reload with worker
-                        </button>
-                    </div>
-                    <Blinker />
-                </div>
-                <div style={{ padding: '62px 24px 24px 24px' }}>
-                    {tableIsVirtualized ? this.renderVirtualizedTable() : this.renderBasicTable()}
-                </div>
-            </React.Fragment>
+                    </React.Fragment>
+                )}
+            </WindowScrollDetector>
         ) : (
             <div
                 style={{
